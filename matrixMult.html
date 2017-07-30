@@ -2,8 +2,20 @@
 <html>
 <head>
   <title>Matrix Multiplication</title>
+  <script src="scripts\calculation.js"> </script>
 </head>
 <body>
   <h1>Matrix Multiplication</h1>
+
+  <form id="matrixForm">
+    Enter First Matrix:<br>
+    <input type="number" name="matrix1"><br>
+    Enter Second Matrix:<br>
+    <input type="number" name="matrix2">
+  </form>
+  <button onclick="mult()">Calculate</button>
+  <p>Matrix will display below</p>
+  <p id="answerMult"></p>
+
 </body>
 </html>

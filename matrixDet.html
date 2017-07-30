@@ -2,8 +2,18 @@
 <html>
 <head>
   <title>Matrix Determinant</title>
+  <script src="scripts\calculation.js"> </script>
 </head>
 <body>
   <h1>Matrix Determinant</h1>
+
+  <form id="matrixForm">
+    Enter Matrix:<br>
+    <input type="number" name="matrix">
+  </form>
+  <button onclick="det()">Calculate</button>
+  <p>Matrix will display below</p>
+  <p id="answerDet"></p>
+
 </body>
 </html>
