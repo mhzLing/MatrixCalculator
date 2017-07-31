@@ -9,13 +9,18 @@
 
   <form id="matrixForm">
     Enter First Matrix:<br>
-    <input type="number" name="matrix1"><br>
+    <textarea rows="5" cols="20" name="matrix1"></textarea><br>
     Enter Second Matrix:<br>
-    <input type="number" name="matrix2">
+    <textarea rows="5" cols="20" name="matrix2"></textarea>
   </form>
+
   <button onclick="mult()">Calculate</button>
+
   <p>Matrix will display below</p>
-  <p id="answerMult"></p>
+
+  <form id="answerMult">
+    <textarea rows="5" cols="20" id="ansMatrix"></textarea>
+  </form>
 
 </body>
 </html>
