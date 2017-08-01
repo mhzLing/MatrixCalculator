@@ -1,10 +1,14 @@
+function toMatrix(input)
+{
+  var rowCounter=0;
+  var colCounter=0;
+
+}
+
 function add()
 {
   var x = document.forms["matrixForm"]["matrix"].value;
-  for(var i = 0; i <= x.length;i++)
-  {
-    console.log(x.charCodeAt(i));
-  }
+
   document.getElementById("ansMatrix").innerHTML = x;
 }
 
