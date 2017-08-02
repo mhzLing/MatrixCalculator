@@ -1,4 +1,4 @@
-
+from fractions import gcd
 
 def is_matrix(m):
     ''' return true if m is matrix or vector '''
@@ -45,20 +45,59 @@ def copy_matrix(m):
     return [ list(row) for row in m ]
 
 
-def smaller_row_vec(v1, v2):
+def smaller_row_vector(v1, v2):
     for index in range(len(v1)):
         if v1[index] != v2[index]:
             return v1 if min(v1[index], v2[index]) == v1[index] else v2
-    return ""    
+    return ""
 
 
-##def reduce(m):
-##    ''' returns (reduced matrix, operations performed) or (list, [str])'''
-##    assert is_matrix(m)
-##    new_m = copy_matrix(m)
-##    operations = []
-##    current_col = 0
-##    
+############################################
+###############  OPERATIONS  ###############
+############################################
+
+
+def _reduce_vector_gcd(v):
+    ''' returns (reduced vector, gcd) '''
+    min_num = gcd(v[0], v[1])
+    result = []
+
+    for i in range(len(v) - 1):
+        divisor = gcd(v[i], v[i + 1])
+        if divisor < min_num:
+            min_num = divisor // 2 if divisor % 2 == 0 and divisor != 2 else divisor
+
+    for i in v:
+        if i // min_num < i / min_num:
+            return (v, 1)
+        else:
+            result.append(i // min_num)
+    return (result, min_num)
+
+
+def reduce_vector(v):
+    ''' returns (correctly reduced vector, least common divisor) '''
+    result = _reduce_vector_gcd(v)
+    next_result = _reduce_vector_gcd(result[0])
+    
+    if next_result[1] == 1:
+        return result
+    else:
+        return reduce_vector(result[0])
+    
+
+def reduce(m):      #INCOMPLETE
+    ''' returns (reduced matrix, operations performed) or (list, [str])'''
+    assert is_matrix(m)
+    new_m = []
+    operations = []
+    current_col = 0
+
+    for v in m:
+        new_v = reduce_vector(v)
+        new_m.append(new_v[0])
+        operations.append(f"//{v[0] // new_v[0][0]}")
+    
 ##    while current_col < len(m[0]):
 ##        change_rows = []
 ##        row_with_pivot = new_m[0]
@@ -130,7 +169,9 @@ assert same_size(v1, v2)
 assert size(x) == "2 x 2"
 assert size(v1) == "2 x 1"
 assert size(nope) == ""
-assert smaller_row_vec(v1, v2) == v1
+assert smaller_row_vector(v1, v2) == v1
+assert reduce_vector([1, 2, 3, 4]) == ([1, 2, 3, 4], 1)
+assert reduce_vector([2, 4, 6]) == ([1, 2, 3], 2)
 ##assert add(x, y)
 ##print(mul_by_num(x, 2))
 ##print(mul_by_num(y, 4))
