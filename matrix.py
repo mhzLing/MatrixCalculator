@@ -77,16 +77,32 @@ def _reduce_vector_gcd(v):
 
 def reduce_vector(v):
     ''' returns (correctly reduced vector, least common divisor) '''
-    result = _reduce_vector_gcd(v)
-    next_result = _reduce_vector_gcd(result[0])
+    result = _reduce_vector_gcd(v)[0]
+    next_result = _reduce_vector_gcd(result)
     
     if next_result[1] == 1:
         return result
     else:
-        return reduce_vector(result[0])
+        return reduce_vector(result)
+
+
+def compare_vectors(m):
+    ''' changes repeated row vector to 0's, order unchanged.
+        returns (changed matrix, operations) '''
+    result = copy_matrix(m)
+    operations = []
+    counter = 0
+
+    while counter != len(result) - 1:
+        for row in range(len(result)):
+            if id(result[counter]) != id(result[row]) and result[counter] == result[row]:
+                result[row] = [ 0 for i in m[row] ]
+        counter += 1
+    return (result, operations)
+    
     
 
-def reduce(m):      #INCOMPLETE
+def reduce_matrix(m):      #INCOMPLETE
     ''' returns (reduced matrix, operations performed) or (list, [str])'''
     assert is_matrix(m)
     new_m = []
@@ -95,9 +111,13 @@ def reduce(m):      #INCOMPLETE
 
     for v in m:
         new_v = reduce_vector(v)
-        new_m.append(new_v[0])
-        operations.append(f"//{v[0] // new_v[0][0]}")
-    
+        new_m.append(new_v)
+        operations.append(f"*{v[0] // new_v[0]}") ########?
+        print(operations)
+        
+    temp = compare_vectors(new_m)
+    new_m = temp[0]
+    operations.append(temp[1])
 ##    while current_col < len(m[0]):
 ##        change_rows = []
 ##        row_with_pivot = new_m[0]
@@ -170,8 +190,8 @@ assert size(x) == "2 x 2"
 assert size(v1) == "2 x 1"
 assert size(nope) == ""
 assert smaller_row_vector(v1, v2) == v1
-assert reduce_vector([1, 2, 3, 4]) == ([1, 2, 3, 4], 1)
-assert reduce_vector([2, 4, 6]) == ([1, 2, 3], 2)
+assert reduce_vector([1, 2, 3, 4]) == [1, 2, 3, 4]
+assert reduce_vector([2, 4, 6]) == [1, 2, 3]
 ##assert add(x, y)
 ##print(mul_by_num(x, 2))
 ##print(mul_by_num(y, 4))

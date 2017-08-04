@@ -59,6 +59,23 @@ function sameSize(m1, m2)
 }
 
 
+function size(m)
+{
+  if(!isMatrix(m)){
+    return "";
+  }
+
+  var result = String(m.length);
+  if(type(m[0]) == "array"){
+    result += " x " + String(m[0].length);
+  }
+  else{
+    result = "1 x " + result;
+  }
+  return result;
+}
+
+
 function add()
 {
   var x = document.forms["matrixForm"]["matrix"].value;
